@@ -1,16 +1,31 @@
 # write-once-markdown
 
-Official Markdown integration for [write-once](https://github.com/opinionated-ts/write-once).
+Markdown integration for [Write Once](https://github.com/opinionated-ts/write-once).
 
-This package is under development. Its public API and supported Markdown extraction behavior will be documented here as the integration is implemented.
+The plugin contributes a `pre-write` hook that wraps extracted non-Markdown source fragments in fenced code blocks when their destination is Markdown. It uses the source extension as the language identifier, normalizes extensions to lowercase, maps common aliases such as `.py` to `python`, and chooses a fence longer than any backtick run in the content. Markdown sources, empty fragments, and non-Markdown destinations are left unchanged.
+
+## Usage
+
+Install `write-once-markdown` alongside `write-once`, then register the plugin in `write-once.config.ts`:
+
+```ts
+import { defineConfig } from "write-once";
+import { markdownPlugin } from "write-once-markdown";
+
+export default defineConfig({
+  plugins: [markdownPlugin],
+});
+```
+
+The plugin uses Write Once's existing resolution and extraction pipeline. It does not add a resolver, extractor, selector, or marker syntax.
 
 ## Development
 
 ```sh
 bun install
-bun test
-bun check
-bun build
+bun run test
+bun run check
+bun run build
 ```
 
 ## Related projects
