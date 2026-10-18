@@ -1,8 +1,8 @@
 # write-once-markdown
 
-[![CI](https://img.shields.io/github/actions/workflow/status/opinionated-ts/write-once-markdown/check-and-release.yml?label=CI)](https://github.com/opinionated-ts/write-once-markdown/actions/workflows/check-and-release.yml)
 [![npm version](https://img.shields.io/npm/v/write-once-markdown)](https://www.npmjs.com/package/write-once-markdown)
 [![npm downloads](https://img.shields.io/npm/dm/write-once-markdown)](https://www.npmjs.com/package/write-once-markdown)
+[![CI](https://img.shields.io/github/actions/workflow/status/opinionated-ts/write-once-markdown/check-and-release.yml?label=CI)](https://github.com/opinionated-ts/write-once-markdown/actions/workflows/check-and-release.yml)
 [![License](https://img.shields.io/github/license/opinionated-ts/write-once-markdown)](https://github.com/opinionated-ts/write-once-markdown/blob/main/LICENSE)
 
 A [Write Once](https://github.com/opinionated-ts/write-once) plugin that formats extracted source code as fenced code blocks in Markdown files.
@@ -32,12 +32,16 @@ export default defineConfig({
 
 Add a fragment to a Markdown file, for example `README.md`:
 
+<!-- write-once-ignore-start -->
+
 ```md
 <!-- fragment source="./src/example.ts" -->
 
 Previous generated content.
 <!-- /fragment -->
 ```
+
+<!-- write-once-ignore-end -->
 
 Run Write Once to synchronize the fragment:
 

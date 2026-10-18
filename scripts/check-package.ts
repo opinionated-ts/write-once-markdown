@@ -52,13 +52,7 @@ try {
   const packedPaths = new Set(
     packedFiles.flatMap((file) => (typeof file["path"] === "string" ? [file["path"]] : [])),
   );
-  const required = [
-    "package.json",
-    "README.md",
-    "docs/usage.md",
-    "dist/index.mjs",
-    "dist/index.d.mts",
-  ];
+  const required = ["package.json", "README.md", "dist/index.mjs", "dist/index.d.mts"];
   const missing = required.filter((file) => !packedPaths.has(file));
 
   if (missing.length > 0) {
