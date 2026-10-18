@@ -1,14 +1,15 @@
-# Markdown integration
+# Usage
 
-`write-once-markdown` is a plugin for [Write Once](https://github.com/opinionated-ts/write-once) that presents extracted source code as fenced code blocks when the destination is Markdown. It uses Write Once's existing marker parser, preparer selection, resolver, extractor, and hook pipeline; it does not introduce a second extraction or marker implementation.
+`write-once-markdown` formats source fragments as fenced code blocks when they are inserted into Markdown destinations. It works with the normal [Write Once](https://github.com/opinionated-ts/write-once) generation command.
 
 ## Install
 
-Install the core CLI and this plugin in the project where you run generation:
+Install both packages as development dependencies in the project where you run generation:
 
 ```sh
-bun add write-once write-once-markdown
-# npm install write-once write-once-markdown
+bun add -d write-once write-once-markdown
+# npm install --save-dev write-once write-once-markdown
+# pnpm add -D write-once write-once-markdown
 ```
 
 ## Configure
@@ -24,32 +25,30 @@ export default defineConfig({
 });
 ```
 
-The plugin factory is passed to `plugins`; Write Once evaluates it while normalizing the configuration. No custom resolver, extractor, or selector is needed for local files.
+## Add a fragment
 
-## Example
-
-Given `src/example.ts`:
+Given a source file `src/example.ts`:
 
 ```ts
 export const answer = 42;
 ```
 
-And `README.md`:
+Add a fragment to `README.md`:
 
 ```md
 <!-- fragment source="./src/example.ts" -->
 
-Previous generated content.
+Replace this line with generated content.
 <!-- /fragment -->
 ```
 
-Run the normal core command:
+Run the generator:
 
 ```sh
 write-once generate
 ```
 
-The generated block body becomes:
+The fragment is synchronized to:
 
 ````md
 <!-- fragment source="./src/example.ts" -->
@@ -61,25 +60,11 @@ export const answer = 42;
 <!-- /fragment -->
 ````
 
-Only the fragment body is returned by the hook. Write Once remains responsible for preserving marker delimiters, reconstructing the destination, deciding whether it changed, and writing it.
-
 ## Formatting rules
 
-- The destination must have a Markdown extension: `.md`, `.markdown`, `.mdown`, or `.mkd` (case-insensitive).
-- Markdown source files are inserted unchanged; non-Markdown sources are fenced.
-- The source extension becomes the fence language, normalized to lowercase. Common aliases include `.js`/`.cjs`/`.mjs` → `javascript`, `.ts`/`.mts`/`.cts` → `typescript`, `.py` → `python`, `.sh` → `bash`, and `.yml` → `yaml`.
-- Unknown extensions are used as their normalized language labels. Sources without an extension use an unlabeled fence.
-- The fence is at least three backticks and longer than the longest backtick run in the content.
-- Empty fragments and non-Markdown destinations are unchanged.
-
-## Development and verification
-
-```sh
-bun install
-bun run test          # builds the distributable, then runs unit and CLI integration tests
-bun run check         # formatting, lint, and spelling checks
-bun run build         # ESM bundle and TypeScript declarations
-bun run pack:check    # inspect the npm package contents without publishing
-```
-
-The integration tests invoke the installed `write-once` CLI against temporary projects and verify actual destination output, marker preservation, idempotence, and non-Markdown behavior.
+- The destination must use a Markdown extension: `.md`, `.markdown`, `.mdown`, or `.mkd`. Extensions are case-insensitive.
+- Non-Markdown source files are wrapped in a fenced code block. Markdown sources are inserted unchanged.
+- The source extension determines the language label, normalized to lowercase. Common aliases are `.js`, `.cjs`, and `.mjs` → `javascript`; `.ts`, `.mts`, and `.cts` → `typescript`; `.py` → `python`; `.sh` → `bash`; and `.yml` → `yaml`.
+- Unknown extensions are used as language labels. Files without an extension use an unlabeled fence.
+- The fence is at least three backticks and longer than any backtick run in the source content.
+- Empty fragments and non-Markdown destinations are left unchanged.
