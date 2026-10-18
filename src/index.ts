@@ -1,12 +1,6 @@
-import { extname } from "node:path";
+import type { GenerationHook, PluginFactory } from "write-once";
 
-interface MarkdownHookContext {
-  stage: string;
-  destination: string;
-  source?: { path: string };
-  sourceReference?: string;
-  text: string;
-}
+import { extname } from "node:path";
 
 const languageByExtension: Readonly<Record<string, string>> = {
   js: "javascript",
@@ -41,13 +35,15 @@ function createFence(text: string, language: string): string {
   const fence = "`".repeat(Math.max(3, longestBacktickRun + 1));
   const label = language ? ` ${language}` : "";
 
-  return `${fence}${label}\n${text}\n${fence}`;
+  const separator = text.endsWith("\n") ? "" : "\n";
+
+  return `${fence}${label}\n${text}${separator}${fence}`;
 }
 
-const markdownFenceHook = {
+const markdownFenceHook: GenerationHook = {
   id: "markdown-code-fence",
   stage: "pre-write",
-  run({ destination, source, sourceReference, text }: MarkdownHookContext) {
+  run({ destination, source, sourceReference, text }) {
     if (!markdownExtensions.has(getExtension(destination)) || text.length === 0) {
       return { text };
     }
@@ -64,9 +60,9 @@ const markdownFenceHook = {
 };
 
 /** Creates the Markdown integration, which fences extracted non-Markdown fragments. */
-export function markdownPlugin() {
+export const markdownPlugin: PluginFactory = () => {
   return {
     name: "write-once-markdown",
     hooks: [markdownFenceHook] as const,
   };
-}
+};

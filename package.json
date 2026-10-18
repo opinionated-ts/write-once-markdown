@@ -22,9 +22,12 @@
     "url": "git+https://github.com/opinionated-ts/write-once-markdown.git"
   },
   "files": [
-    "dist"
+    "dist",
+    "docs",
+    "README.md"
   ],
   "type": "module",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": "./dist/index.mjs",
     "./package.json": "./package.json"
@@ -39,13 +42,18 @@
     "fix": "bun fmt:fix && bun lint:fix",
     "hooks:install": "lefthook install",
     "skills:install": "bun skills experimental_install",
-    "test": "vitest run",
+    "test": "bun run build && vitest run",
+    "test:unit": "vitest run tests/markdown-plugin.test.ts",
+    "test:integration": "bun run build && vitest run tests/integration",
+    "pack:check": "bun run build && bun scripts/check-package.ts",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
     "audit": "bun audit fix --ignore GHSA-vfj7-8cjw-p6xm",
     "build": "tsdown",
-    "build:watch": "tsdown --watch",
-    "start": "bun run build && bun ./dist/index.mjs"
+    "build:watch": "tsdown --watch"
+  },
+  "dependencies": {
+    "write-once": "^2.0.0"
   },
   "devDependencies": {
     "@opinionated-ts/config": "^1.9.1",
