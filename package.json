@@ -1,11 +1,13 @@
 {
   "name": "write-once-markdown",
-  "description": "Official Markdown integration for write-once.",
+  "description": "Format reused source content as Markdown code blocks in Write Once.",
   "keywords": [
-    "integration",
+    "content-synchronization",
+    "documentation-sync",
+    "fragment-reuse",
     "markdown",
-    "opinionated-ts",
-    "plugin",
+    "single-source-of-truth",
+    "text-reuse",
     "write-once"
   ],
   "homepage": "https://github.com/opinionated-ts/write-once-markdown#readme",
@@ -17,6 +19,12 @@
     "name": "Opinionated TS",
     "url": "https://github.com/opinionated-ts"
   },
+  "contributors": [
+    {
+      "name": "Daniel A. Hernández Ochoa",
+      "url": "https://github.com/DanhezCode"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/opinionated-ts/write-once-markdown.git"
