@@ -67,3 +67,8 @@ export const answer = 42;
 - Leaves Markdown sources, empty fragments, and non-Markdown destinations unchanged.
 - Infers the code language from the source extension. Common aliases include `.js`/`.cjs`/`.mjs` → `javascript`, `.ts`/`.mts`/`.cts` → `typescript`, `.py` → `python`, `.sh` → `bash`, and `.yml` → `yaml`.
 - Uses an unlabeled fence when the source has no extension and chooses a fence long enough to safely contain backticks in the content.
+
+## Related
+
+- [Write Once](https://github.com/opinionated-ts/write-once) — Reuse and synchronize content from a single source instead of maintaining duplicated copies.
+- [write-once-github](https://github.com/opinionated-ts/write-once-github) — Resolve source files from GitHub repositories using local Git checkouts.
