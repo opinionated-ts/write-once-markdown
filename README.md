@@ -34,9 +34,9 @@ Add a fragment to a Markdown file, for example `README.md`:
 
 <!-- write-once-ignore-start -->
 
+<!-- prettier-ignore -->
 ```md
 <!-- fragment source="./src/example.ts" -->
-
 Previous generated content.
 <!-- /fragment -->
 ```
@@ -46,18 +46,18 @@ Previous generated content.
 Run Write Once to synchronize the fragment:
 
 ```sh
-write-once generate
+bun run write-once generate
+# npx write-once generate
+# pnpm exec write-once generate
 ```
 
 For example, `src/example.ts` containing `export const answer = 42;` is rendered as:
 
 ````md
 <!-- fragment source="./src/example.ts" -->
-
 ```typescript
 export const answer = 42;
 ```
-
 <!-- /fragment -->
 ````
 
@@ -67,5 +67,3 @@ export const answer = 42;
 - Leaves Markdown sources, empty fragments, and non-Markdown destinations unchanged.
 - Infers the code language from the source extension. Common aliases include `.js`/`.cjs`/`.mjs` → `javascript`, `.ts`/`.mts`/`.cts` → `typescript`, `.py` → `python`, `.sh` → `bash`, and `.yml` → `yaml`.
 - Uses an unlabeled fence when the source has no extension and chooses a fence long enough to safely contain backticks in the content.
-
-See the [usage guide](docs/usage.md) for more details.
